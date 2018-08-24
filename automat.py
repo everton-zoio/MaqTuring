@@ -56,8 +56,9 @@ class State():
 
 class Machine():
 
-	def __init__(self):
-		self.states = 0
+	def __init__(self, IState, string):
+		self.state = IState
+		self.tape = string
 		pass
 	pass
 
@@ -75,3 +76,8 @@ if(sys.argv.__len__() >= 2):
 	for st in states:
 		st.mount(dataTrans, states)
 		st.print()
+	IState = int(data[4].split()[0])
+	for st in states:
+		if(st.cod == IState):
+			IState = st
+	maq = Machine(IState, sys.argv[2])
