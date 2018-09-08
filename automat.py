@@ -62,6 +62,17 @@ class Machine():
 		pass
 	pass
 
+	def main(self):
+		self.head = 0
+		for tr in self.state.transitions
+			if(self.tape[head] == tr.value)
+				self.tape[head] = tr.newValue
+				self.state = tr.newState
+				if(tr.direction == 'R')
+					self.head++
+				if(tr.direction == 'L')
+					self.head--
+
 
 if(sys.argv.__len__() >= 2):
 	arq = open(sys.argv[1],)
