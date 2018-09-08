@@ -1,0 +1,11 @@
+
+
+# Coisas à fazer
+  
+  --> Executar transição específica (parcialmente feito)
+  --> Duplicar Maquina para a execução de maquinas de Turing não determinísticas (a fazer)
+  --> Duplicar a fita (Função auxiliar para o *Duplicar Maquina)  (Feito)
+  --> 
+  -->
+  -->
+  -->
