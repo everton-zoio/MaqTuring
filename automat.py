@@ -3,11 +3,6 @@ import sys
 MaxExec = 500
 
 class Transition():
-	state = 0
-	newState = 0
-	value = ''
-	newValue = ''
-	direction = ''
 
 	def __init__(self, trans, state, states):
 		data = trans.split()
@@ -75,13 +70,13 @@ class State():
 		pass
 
 	def selectDirection(self, pos):
-		if(pos >= 0 & pos < len(self.transitions)):
+		if(pos >= 0 and pos < len(self.transitions)):
 			b = self.transitions[pos].direct()
 			return b
 		pass
 
 	def selectValue(self, pos):
-		if(pos >= 0 & pos < len(self.transitions)):
+		if(pos >= 0 and pos < len(self.transitions)):
 			return self.transitions[pos].nextValue()
 		pass
 
@@ -96,7 +91,7 @@ class State():
 		pass
 
 	def exeSpec(self, pos, value):
-		if(pos >= 0 & pos < len(self.transitions)):
+		if(pos >= 0 and pos < len(self.transitions)):
 			return self.transitions[pos].exe(value)
 		pass
 
@@ -162,7 +157,7 @@ class Tape():
 		pass
 
 	def print(self):
-		print("> > > > "+"".join(self.tape)+" < < < <")
+		print(">>>> "+"".join(self.tape)+" <<<<")
 		pass
 	pass
 
@@ -175,19 +170,18 @@ class Machine():
 		self.tape = Tape(tape, brank)
 		pass
 
-	def main(self):
+	def main(self, trans):
 		self.tape.print()
 		v = self.tape.value()
-		s = self.state.trans(v)
-		if(len(s) > 0):
+		if(len(trans) > 0):
 			if(self.oldState == self.state):
 				self.staked += 1
 			else:
 				self.staked = 0
 			self.oldState = self.state
-			d = self.state.selectDirection(s[0])
-			nV = self.state.selectValue(s[0])
-			self.state = self.state.exeSpec(s[0], v)
+			d = self.state.selectDirection(trans[0])
+			nV = self.state.selectValue(trans[0])
+			self.state = self.state.exeSpec(trans[0], v)
 			self.tape.reflesh(nV,d)
 			if(self.state.isFinal()):
 				return 2
@@ -197,6 +191,12 @@ class Machine():
 		else:
 			return 0
 		pass
+
+	def transitions(self):
+		return self.state.trans(self.tape.value())
+		
+	def copy(self):
+		return Machine(self.state,self.tape, self.tape.brank)
 	pass
 
 if(sys.argv.__len__() >= 2):
@@ -217,15 +217,35 @@ if(sys.argv.__len__() >= 2):
 		if(st.cod == IState):
 			IState = st
 			break
-	
-	maq = Machine(IState, sys.argv[2], brank)
-	a = 1
-	while a == 1:
-		a = maq.main()
+	maq = []
+	maq.append(Machine(IState, sys.argv[2], brank))
+	saida = 1
+	tam = 1
+	while (saida == 1 and tam > 0):
+		saida = 0
+		tam = len(maq)
+		for i in range(0, tam):
+			b = maq[i].transitions()
+			if(len(b) > 1):
+				for j in range(1, len(b)):
+					aux = maq[i].copy()
+					print("Maquina", len(maq))
+					a = aux.main(b[j:])
+					maq.append(aux)
+					print(a)
+			print("Maquina", i)
+			a = maq[i].main(b)
+			if(a == 1):
+				saida = 1
+			print(a)
+			if(a == -1 or a == 0):
+				maq.pop(i)
+				i -= 1─µ                                                                                                                                                                                  
+				tam -= 1
 		pass
 	if (a == -1):
 		print("A maquina entrou em loop!!!")
-	elif (a == 0):
+	elif (a == 0 or tam == 0):
 		print("A palavra não era valida!!!")
 	else:
 		print("A palavra era valida!!!")
