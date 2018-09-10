@@ -1,6 +1,8 @@
 import sys
 
 MaxExec = 500
+verde = "\033[0;32m"
+preto = "\033[0;0m"
 
 class Transition():
 
@@ -157,8 +159,14 @@ class Tape():
 		pass
 
 	def print(self):
-		print(">>>> "+"".join(self.tape)+" <<<<")
+		aux = self.tape[:self.head]
+		aux.append(verde)
+		aux1 = self.tape[self.head:]
+		aux1.insert(1, preto)
+		aux.extend(aux1)
+		print(">>>> "+"".join(aux)+" <<<<")
 		pass
+	
 	pass
 
 class Machine():
@@ -224,24 +232,22 @@ if(sys.argv.__len__() >= 2):
 	while (saida == 1 and tam > 0):
 		saida = 0
 		tam = len(maq)
-		for i in range(0, tam):
+		i = 0
+		while (i < tam):
 			b = maq[i].transitions()
 			if(len(b) > 1):
 				for j in range(1, len(b)):
 					aux = maq[i].copy()
-					print("Maquina", len(maq))
 					a = aux.main(b[j:])
 					maq.append(aux)
-					print(a)
-			print("Maquina", i)
 			a = maq[i].main(b)
 			if(a == 1):
 				saida = 1
-			print(a)
 			if(a == -1 or a == 0):
 				maq.pop(i)
-				i -= 1─µ                                                                                                                                                                                  
+				i -= 1
 				tam -= 1
+			i += 1
 		pass
 	if (a == -1):
 		print("A maquina entrou em loop!!!")
