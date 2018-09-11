@@ -131,7 +131,7 @@ class Tape():
 		pass
 	
 	def content(self):
-		tp = self.tape
+		tp = self.tape.copy()
 		return tp
 		pass
 
