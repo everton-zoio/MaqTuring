@@ -1,0 +1,3 @@
+Grupo: Everton Jr de Abreu, Lucas Daniel e Lucas Souza
+
+Comando para execução: python3 maqTuring.py arquivo_de_entrada.txt palavra_de_entrada
